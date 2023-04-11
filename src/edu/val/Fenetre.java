@@ -4,16 +4,19 @@ import edu.val.models.Decor;
 import edu.val.models.Flappy;
 import edu.val.models.Tuyau;
 import edu.val.models.Bonus;
+import edu.val.models.ImageLoader;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Fenetre extends Canvas {
-    private boolean alreadyStarted = false;
+    private boolean bonusCollision = false;
     private boolean gameOver = false;
     public static int gap = 100;
     public static int score = 0;
@@ -31,7 +34,8 @@ public class Fenetre extends Canvas {
     public static int HAUTEUR = 500;
     public static double tuyau_max_hauteur = HAUTEUR * 0.60;
     public static double tuyau_min_hauteur = HAUTEUR * 0.20;
-    public Color[] couleurs = {Color.green, Color.blue, Color.red, Color.yellow, Color.orange, Color.pink, Color.cyan, Color.magenta, Color.gray, Color.darkGray, Color.lightGray, Color.white, Color.black};
+    public Color CouleurTuyau = Color.green;
+    public Color CouleurDecor = Color.gray;
 
     protected boolean spacePressed = false;
 
@@ -64,7 +68,7 @@ public class Fenetre extends Canvas {
                 if(e.getKeyCode() == KeyEvent.VK_SPACE) {
 
                     if(!spacePressed) {
-                        flappy.setVitesseY(-3);
+                        flappy.setVitesseY(-4.5f);
                     }
                     spacePressed = true;
                 }
@@ -94,7 +98,9 @@ public class Fenetre extends Canvas {
         // Loop pour créer les tuyaux
         for(int i = 0; i < listeTuyauxBas.length; i++) {
 
-            int hauteurTuyauHaut = (int)(Math.random() * (tuyau_max_hauteur - tuyau_min_hauteur)) + (int)tuyau_min_hauteur;
+            // On calcule la hauteur du tuyau du haut avec un nombre random entre le min (20% de la hauteur de la fenetre) et le max (60% de la hauteur de la fenetre)
+            int hauteurTuyauHaut = (int) (Math.random() * (tuyau_max_hauteur - tuyau_min_hauteur)) + (int) tuyau_min_hauteur;
+            // On calcule la hauteur du tuyau du bas en soustrayant la hauteur du tuyau du haut à la hauteur de la fenetre ainsi qu'à la variable gap (qui correspond à l'espace vertical entre les deux tuyaux)
             int hauteurTuyauBas = HAUTEUR - hauteurTuyauHaut - gap;
 
             listeTuyauxBas[i] = new Tuyau(
@@ -103,7 +109,7 @@ public class Fenetre extends Canvas {
                     80,
                     hauteurTuyauBas,
                     4,
-                    couleurs[i],
+                    CouleurTuyau,
                     i);
 
             listeTuyauxHaut[i] = new Tuyau(
@@ -112,7 +118,7 @@ public class Fenetre extends Canvas {
                     80,
                     hauteurTuyauHaut,
                     4,
-                    couleurs[i],
+                    CouleurTuyau,
                     i);
 
         }
@@ -127,9 +133,10 @@ public class Fenetre extends Canvas {
                     80,
                     hauteur_decor,
                     2,
-                    Color.BLACK,
+                    CouleurDecor,
                     i
             );
+
         }
 
 
@@ -139,8 +146,11 @@ public class Fenetre extends Canvas {
             while(!gameOver) {
                 frame ++;
 
+
+
                 // Affichage
                 Graphics2D dessin = (Graphics2D) getBufferStrategy().getDrawGraphics();
+
 
                 dessin.setColor(Color.white);
                 dessin.fillRect(0,0,LARGEUR,HAUTEUR);
@@ -160,6 +170,15 @@ public class Fenetre extends Canvas {
                     Tuyau tuyau_bas = listeTuyauxBas[i];
                     Tuyau tuyau_haut = listeTuyauxHaut[i];
 
+                    // On vérifie si le score est un multiple de 10 != 0 et on vérifie si le nombre de frame est un multiple de 60 pour exécuter la condition
+                    // une seule fois par seconde (cela évite que la condition soit verifiée autant de fois que de frame passées)
+                    if (score % 10 == 0 && score != 0 && frame % 60 == 0) {
+                        // Dans ce cas on appelle la méthode incrementVitesseX (qui augmente la vitesseX du tuyau de 0.5f)
+                        tuyau_bas.incrementVitesseX();
+                        tuyau_haut.incrementVitesseX();
+                        System.out.println(tuyau_bas.getVitesseX());
+                    }
+
                     // On calcule la hauteur du tuyau du haut avec un nombre random entre le min (20% de la hauteur de la fenetre) et le max (60% de la hauteur de la fenetre)
                     int hauteurTuyauHaut = (int) (Math.random() * (tuyau_max_hauteur - tuyau_min_hauteur)) + (int) tuyau_min_hauteur;
                     // On calcule la hauteur du tuyau du bas en soustrayant la hauteur du tuyau du haut à la hauteur de la fenetre ainsi qu'à la variable gap (qui correspond à l'espace vertical entre les deux tuyaux)
@@ -172,29 +191,63 @@ public class Fenetre extends Canvas {
 
 
                     if (flappy.collision(tuyau_bas) || flappy.collision(tuyau_haut)) {
-                        System.out.println("collision");
+//                        System.out.println("collision");
                         // On sort de la boucle
                         gameOver = true;
                     }
 
-                    if (score != 0 && score % 10 == 0) {
-                        System.out.println("spawn bonus");
+                    // On regarde si le score est un multiple de 40 et s'il est différent de 0 (pour éviter de faire un spawn un bonus au démarrage)
+                    if (score != 0 && score % 20 == 0) {
+                        // Si il n'y a aucun bonus
                         if(listeBonus.size() == 0)
                         {
+                            // Alors on instancie un Bonus
                             listeBonus.add(new Bonus());
                         }
                     }
+                }
 
-                    for (Bonus bonus : listeBonus) {
-                        bonus.deplacement(flappy, dessin);
+                // Gestion des Bonus
+                // On parcourt les bonus
+                for (Bonus bonus : listeBonus) {
+                    // On vérifie que le bonus n'est pas nul sinon NullPointerException
+                    if (bonus != null) {
+                        // On gère les mouvements ainsi que l'affichage
+                        bonus.deplacement();
                         bonus.dessine(dessin);
-                    }
 
+                        // Vérifier s'il y a une collision avec les bordures
+                        if((bonus.getY() + bonus.getHauteur()) > Fenetre.HAUTEUR ||(bonus.getX() + bonus.getLargeur() < 0)) {
+                            listeBonus.set(0, null);
+                            bonusCollision = true;
+                        }
+                        // Si il y a une collision avec flappy
+                        if (bonus.collision(flappy)) {
+
+                            // On détruit l'objet en le mettant à null et pour le retirer de la liste par la suite
+                            listeBonus.set(0, null);
+
+                            // on incrémente le score de 50
+                            score += 50;
+
+                            // On veut le supprimer de la liste mais impossible de le faire dans la boucle à cause de ConcurrentModificationException
+                            // On ajoute donc une variable pour gérer cela en dehors de la boucle pour éviter cette erreur
+                            bonusCollision = true;
+                        }
+                    }
+                }
+                // Si il y a eu une collision entre le bonus et flappy
+                if (bonusCollision) {
+                    // on supprime le bonus
+                    listeBonus.clear();
+                    // on sort de la condition jusqu'à qu'il y ait une nouvelle collsion entre flappy et bonus
+                    bonusCollision = false;
                 }
 
                 // Score
                 dessin.setColor(Color.black);
                 dessin.drawString("Score : " + score, 10, 20);
+
 
                 // Affichage
                 dessin.dispose();

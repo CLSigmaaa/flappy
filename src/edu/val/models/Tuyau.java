@@ -51,9 +51,8 @@ public class Tuyau extends ScrollingSprite implements Collisionnable {
             super.deplacement();
         }
     }
-
+    // Méthode qui permet d'incrémenter la vitesseX du tuyau
     public void incrementVitesseX() {
-        vitesseX += 0.001f;
-        System.out.println("Vitesse X : " + vitesseX);
+        vitesseX += 0.5f;
     }
 }

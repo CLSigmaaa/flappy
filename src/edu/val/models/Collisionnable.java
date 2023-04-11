@@ -8,16 +8,6 @@ public interface Collisionnable extends Dessinable {
                 && this.getCentreX() < target.getX() + target.getLargeur()
                 && this.getCentreY() > target.getY()
                 && this.getCentreY() < target.getY() + target.getHauteur();
-
-//
-//        if(target instanceof Sprite) {
-//            Sprite sprite = (Sprite) target;
-//        }
-//
-//        if(target instanceof Sprite sprite) {
-//
-//        }
-
     }
 
 }

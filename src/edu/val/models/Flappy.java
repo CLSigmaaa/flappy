@@ -23,7 +23,9 @@ public class Flappy extends MovingSprite implements Collisionnable{
 
     @Override
     public void deplacement() {
-        vitesseY += 0.12f;
+        vitesseY += 0.2f;
         y += vitesseY;
     }
+
+
 }
