@@ -222,7 +222,7 @@ public class Fenetre extends Canvas {
                             bonusCollision = true;
                         }
                         // Si il y a une collision avec flappy
-                        if (bonus.collision(flappy)) {
+                        if (flappy.collision(bonus)) {
 
                             // On détruit l'objet en le mettant à null et pour le retirer de la liste par la suite
                             listeBonus.set(0, null);
