@@ -12,8 +12,17 @@ public class Flappy extends MovingSprite implements Collisionnable{
 
     @Override
     public void dessine(Graphics2D dessin) {
+
+        dessin.setColor(Color.PINK);
+        dessin.fillOval( borders[0].x,borders[0].y,5, 5);
+        dessin.fillOval( borders[1].x,borders[1].y,5, 5);
+        dessin.fillOval( borders[2].x,borders[2].y,5, 5);
+        dessin.fillOval( borders[3].x,borders[3].y,5, 5);
+
+
+
         dessin.setColor(Color.red);
-        dessin.fillOval( x,y - hauteur/2,largeur, hauteur);
+        dessin.fillOval( x,y,largeur, hauteur);
     }
 
     @Override
@@ -23,6 +32,8 @@ public class Flappy extends MovingSprite implements Collisionnable{
 
     @Override
     public void deplacement() {
+
+        super.deplacement();
         vitesseY += 0.2f;
         y += vitesseY;
     }

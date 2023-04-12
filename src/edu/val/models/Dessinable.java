@@ -9,6 +9,11 @@ public interface Dessinable {
     int getLargeur();
     int getHauteur();
 
+    Point getTopLeftCorner();
+    Point getTopRightCorner();
+    Point getBottomRightCorner();
+    Point getBottomLeftCorner();
+    Point[] getBorders();
     default int getCentreX() {
         return getX() + getLargeur() / 2;
     }

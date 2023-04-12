@@ -11,7 +11,16 @@ public abstract class MovingSprite extends Sprite{
         this.vitesseY = vitesseY;
     }
 
-    public abstract void deplacement();
+    public void deplacement() {
+        // FIXME: Don't instantiate a new Point object each time
+
+//        System.out.println("toprightcorner: " + this.getTopRightCorner().x + " " + this.getTopRightCorner().y);
+        this.setBottomLeftCorner(new Point(this.x, this.y + this.hauteur));
+        this.setBottomRightCorner(new Point(this.x + this.largeur, this.y + this.hauteur));
+        this.setTopLeftCorner(new Point(this.x, this.y));
+        this.setTopRightCorner(new Point(this.x + this.largeur, this.y));
+        this.setBorders(new Point[]{this.getTopLeftCorner(), this.getTopRightCorner(), this.getBottomRightCorner(), this.getBottomLeftCorner()});
+    };
 
     public float getVitesseX() {
         return vitesseX;

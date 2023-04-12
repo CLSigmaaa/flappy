@@ -8,7 +8,7 @@ public abstract class ScrollingSprite extends MovingSprite {
     }
 
     public void deplacement() {
-
+        super.deplacement();
         x -= vitesseX;
     }
 }
