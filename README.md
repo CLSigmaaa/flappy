@@ -14,7 +14,7 @@
  </ul>
  <h2> A corriger </h2>
  <ul>
-  <li>Les collisions du bonus</li>
+  <li>Les collisions du bonus (Fait)</li>
   <li>Les déplacements et la gestion de l'aléatoire du bonus</li>
   <li>Les nombreuses variables statics de la classe Fenetre</li>
   <li>Ajuster les nombreuses variables (gravité, vitesse du saut vertical, vitesse des tuyaux, gaps...)</li>
