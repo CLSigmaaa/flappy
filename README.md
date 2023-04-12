@@ -19,6 +19,7 @@
   <li>Les nombreuses variables statics de la classe Fenetre</li>
   <li>Ajuster les nombreuses variables (gravité, vitesse du saut vertical, vitesse des tuyaux, gaps...)</li>
   <li>Le score plus lisible</li>
+  <li>Factoriser le code en ajoutant des fonctions, notamment pour générer des nombres aléatoires avec min et max, générer la longueur des tuyaux...</li>
  </ul>
  <h2>A ajouter </h2>
  <ul>
