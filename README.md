@@ -17,7 +17,7 @@
   <li>Les collisions du bonus</li>
   <li>Les déplacements et la gestion de l'aléatoire du bonus</li>
   <li>Les nombreuses variables statics de la classe Fenetre</li>
-  <li>Ajuster les nombreuses variables (gravité, vitesse du saut vertical, vitesse des tuyax, gaps...)</li>
+  <li>Ajuster les nombreuses variables (gravité, vitesse du saut vertical, vitesse des tuyaux, gaps...)</li>
   <li>Le score plus lisible</li>
  </ul>
  <h2>A ajouter </h2>
