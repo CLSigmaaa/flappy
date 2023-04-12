@@ -31,7 +31,7 @@ public class Decor extends ScrollingSprite{
             // Si c'est le premier décor de la liste
             if (index_liste_decor == 0) {
                 // On récupère les coordonnées x du dernier tuyau puis on ajoute l'espace entre les tuyaux
-                x = Fenetre.listeDecors[Fenetre.NB_TUYAUX - 1].getX() + Fenetre.ESPACE_DECORS;
+                x = Fenetre.listeDecors[Fenetre.NB_DECORS - 1].getX() + Fenetre.ESPACE_DECORS;
             } else {
                 // On récupère les coordonnées x du tuyau précédent puis on ajoute l'espace entre les tuyaux
                 x = Fenetre.listeDecors[index_liste_decor - 1].getX() + Fenetre.ESPACE_DECORS;

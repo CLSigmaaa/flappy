@@ -19,9 +19,9 @@ public class Fenetre extends Canvas {
     public static Graphics2D dessin;
     private boolean bonusCollision = false;
     private boolean gameOver = false;
-    public static int gap = 100;
+    public static int gap = 200;
     public static int score = 0;
-    public static int NB_TUYAUX = 1;
+    public static int NB_TUYAUX = 3;
     public static int NB_DECORS = 5;
     public static int ESPACE_TUYAUX = 400;
     public static int ESPACE_DECORS = 150;
@@ -100,7 +100,7 @@ public class Fenetre extends Canvas {
         for(int i = 0; i < listeTuyauxBas.length; i++) {
 
             // On calcule la hauteur du tuyau du haut avec un nombre random entre le min (20% de la hauteur de la fenetre) et le max (60% de la hauteur de la fenetre)
-            int hauteurTuyauHaut = 250;//(int) (Math.random() * (tuyau_max_hauteur - tuyau_min_hauteur)) + (int) tuyau_min_hauteur;
+            int hauteurTuyauHaut = (int) (Math.random() * (tuyau_max_hauteur - tuyau_min_hauteur)) + (int) tuyau_min_hauteur;
             // On calcule la hauteur du tuyau du bas en soustrayant la hauteur du tuyau du haut à la hauteur de la fenetre ainsi qu'à la variable gap (qui correspond à l'espace vertical entre les deux tuyaux)
             int hauteurTuyauBas = HAUTEUR - hauteurTuyauHaut - gap;
 
@@ -181,13 +181,14 @@ public class Fenetre extends Canvas {
                     }
 
                     // On calcule la hauteur du tuyau du haut avec un nombre random entre le min (20% de la hauteur de la fenetre) et le max (60% de la hauteur de la fenetre)
-                    int hauteurTuyauHaut = 250;//(int) (Math.random() * (tuyau_max_hauteur - tuyau_min_hauteur)) + (int) tuyau_min_hauteur;
+                    int hauteurTuyauHaut = (int) (Math.random() * (tuyau_max_hauteur - tuyau_min_hauteur)) + (int) tuyau_min_hauteur;
                     // On calcule la hauteur du tuyau du bas en soustrayant la hauteur du tuyau du haut à la hauteur de la fenetre ainsi qu'à la variable gap (qui correspond à l'espace vertical entre les deux tuyaux)
                     int hauteurTuyauBas = HAUTEUR - hauteurTuyauHaut - gap;
 
                     tuyau_bas.deplacement(hauteurTuyauBas);
                     tuyau_bas.dessine(dessin);
-//
+                    tuyau_haut.deplacement(hauteurTuyauHaut);
+                    tuyau_haut.dessine(dessin);
 
 
                     if (flappy.collision(tuyau_bas) || flappy.collision(tuyau_haut)) {
@@ -235,11 +236,11 @@ public class Fenetre extends Canvas {
                         }
                     }
                 }
-                // Si il y a eu une collision entre le bonus et flappy
+                // S'il y a eu une collision entre le bonus et flappy
                 if (bonusCollision) {
                     // on supprime le bonus
                     listeBonus.clear();
-                    // on sort de la condition jusqu'à qu'il y ait une nouvelle collsion entre flappy et bonus
+                    // on sort de la condition jusqu'à qu'il y ait une nouvelle collision entre flappy et bonus
                     bonusCollision = false;
                 }
 

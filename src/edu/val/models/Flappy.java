@@ -7,7 +7,7 @@ import java.awt.*;
 public class Flappy extends MovingSprite implements Collisionnable{
 
     public Flappy() {
-        super(50, Fenetre.HAUTEUR / 2, 30, 30, 0, 0);
+        super(50, Fenetre.HAUTEUR / 2, 25, 25, 0, 0);
     }
 
     @Override
